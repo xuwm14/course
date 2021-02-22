@@ -105,6 +105,7 @@ public class TestController {
     }
 
     /** 获取文件下载的路径 */
+    @NeedLogin
     @BizType(BizTypeEnum.FILE_DOWNLOAD_TEST)
     public CommonOutParams fileDownTest(CommonInParams inParams) throws Exception {
         DownloadFileOutParams outParams = new DownloadFileOutParams();
