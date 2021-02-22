@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.TimeZone;
+
 /** SpringBoot的主启动类 */
 @SpringBootApplication
 public class CourseApplication implements CommandLineRunner {
@@ -20,6 +22,8 @@ public class CourseApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        /** 设置时区，在某些服务器上时区可能不是标准北京时区 */
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
         /** 监听Http，监听会阻塞线程，需要新建线程 */
         new Thread(() -> {
             try {
