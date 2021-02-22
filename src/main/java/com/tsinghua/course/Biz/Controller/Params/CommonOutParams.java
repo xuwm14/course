@@ -9,7 +9,9 @@ public class CommonOutParams extends CommonParams {
     /** 业务执行的具体时间，系统会在返回前自动填充 */
     protected Long time;
 
-    public CommonOutParams() {}
+    public CommonOutParams() {
+        this.success = true;
+    }
 
     public CommonOutParams(boolean success) {
         this.success = success;
