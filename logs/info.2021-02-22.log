@@ -1,0 +1,25 @@
+2021-02-22 10:42:44.601 -INFO 13967 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 13967 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 10:42:44.603 -INFO 13967 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 10:42:46.409 -INFO 13967 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.127 seconds (JVM running for 2.767)
+2021-02-22 10:52:35.611 -INFO 14053 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 14053 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 10:52:35.613 -INFO 14053 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 10:52:37.464 -INFO 14053 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.117 seconds (JVM running for 2.772)
+2021-02-22 10:54:34.652 -INFO 14053 [eduler_Worker-1] com.tsinghua.course.CourseApplication : 定时任务启动时间：2021-02-22 10:54:29；定时任务执行时间：2021-02-22 10:54:34-
+2021-02-22 10:57:09.708 -INFO 14089 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 14089 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 10:57:09.711 -INFO 14089 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 10:57:11.498 -INFO 14089 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.072 seconds (JVM running for 2.73)
+2021-02-22 11:02:18.027 -INFO 14112 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 14112 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 11:02:18.029 -INFO 14112 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 11:02:19.905 -INFO 14112 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.155 seconds (JVM running for 2.804)
+2021-02-22 11:08:37.978 -INFO 14159 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 14159 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 11:08:37.980 -INFO 14159 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 11:08:39.737 -INFO 14159 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.034 seconds (JVM running for 2.665)
+2021-02-22 11:10:31.225 -INFO 14170 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 14170 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 11:10:31.227 -INFO 14170 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 11:10:33.008 -INFO 14170 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.101 seconds (JVM running for 2.721)
+2021-02-22 11:11:02.335 -INFO 14179 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 14179 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 11:11:02.337 -INFO 14179 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 11:11:04.200 -INFO 14179 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.15 seconds (JVM running for 2.835)
+2021-02-22 15:58:17.202 -INFO 14883 [           main] com.tsinghua.course.CourseApplication : Starting CourseApplication using Java 1.8.0_121 on xuweimindeMacBook-Pro.local with PID 14883 (/Users/song/work/java/course/target/classes started by song in /Users/song/work/java/course)
+2021-02-22 15:58:17.205 -INFO 14883 [           main] com.tsinghua.course.CourseApplication : No active profile set, falling back to default profiles: default
+2021-02-22 15:58:19.207 -INFO 14883 [           main] com.tsinghua.course.CourseApplication : Started CourseApplication in 2.329 seconds (JVM running for 2.99)
