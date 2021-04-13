@@ -58,20 +58,20 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     /** 处理http请求的实际函数 */
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest msg) {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest request) {
         JSONObject requestParams = new JSONObject();
         BizTypeEnum bizTypeEnum = null;
         try {
             /** 执行业务的线程存在复用情况，需要清除以前的线程变量 */
             ThreadUtil.clean();
             /** 获取session，如果session，如果不存在需要新建session */
-            getSession(msg);
+            getSession(request);
             if (!hasPreSession)
                 httpSession = HttpSession.newSession();
             /** 将session存入线程变量之中，方便后来的业务获取 */
             ThreadUtil.setHttpSession(httpSession);
             /** 解析参数列表 */
-            requestParams = getRequestParams(msg);
+            requestParams = getRequestParams(request);
 
             /** 获取操作类型 */
             try {
@@ -97,7 +97,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             /** 使用派发器执行业务并返回业务执行结果 */
             String retStr;
             retStr = dispatcher.dispatch(params);
-            writeResponse(channelHandlerContext, retStr);
+            writeResponse(channelHandlerContext, retStr, request);
         } catch (Exception e) {
             String retStr;
             if (e instanceof CourseWarn) {
@@ -114,7 +114,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             }
 
             /** 将返回结果写入管道 */
-            writeResponse(channelHandlerContext, retStr);
+            writeResponse(channelHandlerContext, retStr, request);
         }
     }
 
@@ -157,7 +157,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     /** 根据httpPath获取对应的业务 */
     private BizTypeEnum getBizTypeByPath(String httpPath) {
-        BizTypeEnum[] bizTypeEnums = BizTypeEnum.class.getEnumConstants();
+        BizTypeEnum[] bizTypeEnums = BizTypeEnum.values();
         BizTypeEnum ret = null;
         for (BizTypeEnum bizTypeEnum:bizTypeEnums) {
             if (httpPath.equals(bizTypeEnum.getHttpPath())) {
@@ -186,11 +186,15 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     }
 
     /** 将内容写入返回管道中 */
-    private void writeResponse(ChannelHandlerContext ctx, String content) {
+    private void writeResponse(ChannelHandlerContext ctx, String content, FullHttpRequest request) {
         /** 将字符串写入response中 */
         ByteBuf buf = Unpooled.copiedBuffer(content, CharsetUtil.UTF_8);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buf);
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, NameConstant.DEFAULT_CONTENT);
+        response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, true);
+        response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS, "content-type");
+        String clientIP = request.headers().get("Origin");
+        response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, clientIP);
 
         /** 如果之前不存在session，需要设置一下session */
         if (!hasPreSession) {

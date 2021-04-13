@@ -77,8 +77,8 @@ public class ParseUtil {
                 FileUpload fileUpload = (FileUpload)val;
                 jsonObject.put(key, "file-" + fileUpload.getFilename());
             } else {
-                /** 否则记录字符串化后的结果 */
-                jsonObject.put(key, val.toString());
+                /** 否则直接放入json对象中 */
+                jsonObject.put(key, val);
             }
         }
         return jsonObject.toString();
