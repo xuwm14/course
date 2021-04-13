@@ -194,7 +194,8 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, true);
         response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS, "content-type");
         String clientIP = request.headers().get("Origin");
-        response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, clientIP);
+        if (clientIP != null)
+            response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, clientIP);
 
         /** 如果之前不存在session，需要设置一下session */
         if (!hasPreSession) {
