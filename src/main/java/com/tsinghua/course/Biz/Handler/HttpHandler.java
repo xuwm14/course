@@ -1,5 +1,6 @@
 package com.tsinghua.course.Biz.Handler;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.tsinghua.course.Base.Constant.KeyConstant;
 import com.tsinghua.course.Base.Constant.NameConstant;
@@ -139,6 +140,10 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         }
         /** 解析请求体中的参数 */
         HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(DefaultHttpDataFactory.MAXSIZE), request);
+        if(request.content().isReadable()) {
+            String jsonStr = request.content().toString(CharsetUtil.UTF_8);
+            params.putAll(JSON.parseObject(jsonStr));
+        }
         List<InterfaceHttpData> httpPostData = decoder.getBodyHttpDatas();
 
         for (InterfaceHttpData data : httpPostData) {
