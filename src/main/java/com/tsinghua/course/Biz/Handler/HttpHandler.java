@@ -142,7 +142,11 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(DefaultHttpDataFactory.MAXSIZE), request);
         if(request.content().isReadable()) {
             String jsonStr = request.content().toString(CharsetUtil.UTF_8);
-            params.putAll(JSON.parseObject(jsonStr));
+            try {
+                params.putAll(JSON.parseObject(jsonStr));
+            } catch (Exception e) {
+
+            }
         }
         List<InterfaceHttpData> httpPostData = decoder.getBodyHttpDatas();
 
