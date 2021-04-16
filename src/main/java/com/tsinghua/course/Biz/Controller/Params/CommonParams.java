@@ -1,6 +1,8 @@
 package com.tsinghua.course.Biz.Controller.Params;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tsinghua.course.Base.Annotation.Required;
+import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Frame.Util.ParseUtil;
 
 import java.lang.reflect.Field;
@@ -26,13 +28,15 @@ public abstract class CommonParams {
     }
 
     /** 根据jsonObject对象解析参数 */
-    public void fromJsonObject(JSONObject paramJson) throws IllegalAccessException {
+    public void fromJsonObject(JSONObject paramJson) throws Exception {
         /** 根据json中对应属性的键值来设置属性值 */
         Field[] fields = ParseUtil.getAllFields(getClass());
         for (Field field : fields) {
             if (paramJson.containsKey(field.getName())) {
                 field.setAccessible(true);
                 field.set(this, paramJson.get(field.getName()));
+            } else if (field.isAnnotationPresent(Required.class)) {
+                throw new CourseWarn("default", field.getName() + "不能为空");
             }
         }
     }

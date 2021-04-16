@@ -14,6 +14,11 @@ public class CourseWarn extends Exception {
         errorMsg = exceptionInterface.getErrorMessage();
     }
 
+    public CourseWarn(String code, String msg) {
+        errorCode = code;
+        errorMsg = msg;
+    }
+
     public String getErrorCode() {
         return errorCode;
     }
