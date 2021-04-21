@@ -1,6 +1,6 @@
 package com.tsinghua.course.Base.Annotation;
 
-import com.tsinghua.course.Base.Enum.BizTypeEnum;
+import com.tsinghua.course.Biz.BizTypeEnum;
 
 import java.lang.annotation.*;
 

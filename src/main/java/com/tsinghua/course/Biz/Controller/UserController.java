@@ -1,7 +1,7 @@
 package com.tsinghua.course.Biz.Controller;
 
 import com.tsinghua.course.Base.Annotation.BizType;
-import com.tsinghua.course.Base.Enum.BizTypeEnum;
+import com.tsinghua.course.Biz.BizTypeEnum;
 import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Base.Error.UserWarnEnum;
 import com.tsinghua.course.Base.Model.User;

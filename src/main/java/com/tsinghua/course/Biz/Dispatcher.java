@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tsinghua.course.Base.Annotation.BizType;
 import com.tsinghua.course.Base.Constant.NameConstant;
-import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Base.Error.CourseError;
 import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Base.Error.SystemErrorEnum;

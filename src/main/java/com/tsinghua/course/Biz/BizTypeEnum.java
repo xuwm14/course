@@ -1,4 +1,4 @@
-package com.tsinghua.course.Base.Enum;
+package com.tsinghua.course.Biz;
 
 import com.tsinghua.course.Biz.Controller.TestController;
 import com.tsinghua.course.Biz.Controller.TimerController;

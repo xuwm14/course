@@ -1,9 +1,8 @@
 package com.tsinghua.course.Frame.Util;
 
 import com.tsinghua.course.Base.Constant.GlobalConstant;
-import com.tsinghua.course.Base.Constant.KeyConstant;
 import com.tsinghua.course.Base.Constant.NameConstant;
-import com.tsinghua.course.Base.Enum.BizTypeEnum;
+import com.tsinghua.course.Biz.BizTypeEnum;
 import com.tsinghua.course.Base.Error.CourseError;
 import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;

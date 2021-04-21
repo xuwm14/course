@@ -1,6 +1,6 @@
 package com.tsinghua.course.Biz.Controller.Params;
 
-import com.tsinghua.course.Base.Enum.BizTypeEnum;
+import com.tsinghua.course.Biz.BizTypeEnum;
 
 /**
  * @描述 通用入参，所有的入参都需要继承自此类
