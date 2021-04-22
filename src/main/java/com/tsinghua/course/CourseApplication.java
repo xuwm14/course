@@ -17,7 +17,11 @@ public class CourseApplication implements CommandLineRunner {
 
     /** 启动服务器 */
     public static void main(String[] args) {
-        SpringApplication.run(CourseApplication.class, args);
+        try {
+            SpringApplication.run(CourseApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
