@@ -1,10 +1,12 @@
 package com.tsinghua.course.Biz.Controller.Params;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tsinghua.course.Base.Annotation.Required;
 import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Frame.Util.ParseUtil;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 /**
@@ -34,7 +36,19 @@ public abstract class CommonParams {
         for (Field field : fields) {
             if (paramJson.containsKey(field.getName())) {
                 field.setAccessible(true);
-                field.set(this, paramJson.get(field.getName()));
+                Object obj = paramJson.get(field.getName());
+                /** 解析数组需要特殊处理 */
+                if (field.getType().isArray()) {
+                    Class subCls = field.getType().getComponentType();
+                    JSONArray arr = (JSONArray)obj;
+                    Object fillArr = Array.newInstance(subCls, arr.size());
+                    for (int i = 0; i < arr.size(); ++i)
+                        Array.set(fillArr, i, arr.get(i));
+                    field.set(this, fillArr);
+                } else {
+                    /** 不是数组直接赋值 */
+                    field.set(this, obj);
+                }
             } else if (field.isAnnotationPresent(Required.class)) {
                 throw new CourseWarn("default", field.getName() + "不能为空");
             }
