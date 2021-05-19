@@ -1,6 +1,7 @@
 package com.tsinghua.course.Biz.Handler;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tsinghua.course.Base.Constant.KeyConstant;
 import com.tsinghua.course.Base.Constant.NameConstant;
@@ -151,6 +152,19 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         List<InterfaceHttpData> httpPostData = decoder.getBodyHttpDatas();
 
         for (InterfaceHttpData data : httpPostData) {
+            Object obj = params.get(data.getName());
+            /** 如果之前存了对象，说明传了数组，转化为数组 */
+            if (obj != null) {
+                if (obj instanceof JSONArray)
+                    ((JSONArray) obj).add(data);
+                else {
+                    JSONArray objArr = new JSONArray();
+                    objArr.add(obj);
+                    objArr.add(data);
+                    params.put(data.getName(), objArr);
+                }
+                continue;
+            }
             /** 普通属性直接赋值就可以了 */
             if (data.getHttpDataType() == InterfaceHttpData.HttpDataType.Attribute) {
                 MixedAttribute attribute = (MixedAttribute) data;
