@@ -40,11 +40,17 @@ public abstract class CommonParams {
                 /** 解析数组需要特殊处理 */
                 if (field.getType().isArray()) {
                     Class subCls = field.getType().getComponentType();
-                    JSONArray arr = (JSONArray)obj;
-                    Object fillArr = Array.newInstance(subCls, arr.size());
-                    for (int i = 0; i < arr.size(); ++i)
-                        Array.set(fillArr, i, arr.get(i));
-                    field.set(this, fillArr);
+                    if (obj instanceof JSONArray) {
+                        JSONArray arr = (JSONArray) obj;
+                        Object fillArr = Array.newInstance(subCls, arr.size());
+                        for (int i = 0; i < arr.size(); ++i)
+                            Array.set(fillArr, i, arr.get(i));
+                        field.set(this, fillArr);
+                    } else {
+                        Object fillArr = Array.newInstance(subCls, 1);
+                        Array.set(fillArr, 0, obj);
+                        field.set(this, fillArr);
+                    }
                 } else {
                     /** 不是数组直接赋值 */
                     field.set(this, obj);

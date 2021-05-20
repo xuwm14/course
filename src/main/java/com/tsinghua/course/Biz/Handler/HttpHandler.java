@@ -53,10 +53,9 @@ import java.util.Set;
 public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     @Autowired
     private Dispatcher dispatcher;
-    /** 存储httpSession的对象 */
-    private HttpSession httpSession;
+
     /** 之前是否已经存在httpSession */
-    private boolean hasPreSession;
+    private ThreadLocal<Boolean> hasPreSession = new ThreadLocal<>();
 
     /** 处理http请求的实际函数 */
     @Override
@@ -66,12 +65,9 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         try {
             /** 执行业务的线程存在复用情况，需要清除以前的线程变量 */
             ThreadUtil.clean();
+            hasPreSession.remove();
             /** 获取session，如果session，如果不存在需要新建session */
             getSession(request);
-            if (!hasPreSession)
-                httpSession = HttpSession.newSession();
-            /** 将session存入线程变量之中，方便后来的业务获取 */
-            ThreadUtil.setHttpSession(httpSession);
             /** 解析参数列表 */
             requestParams = getRequestParams(request);
 
@@ -92,8 +88,8 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             params.fromJsonObject(requestParams);
 
             /** 获取缓存在session中的用户名信息 */
-            if (hasPreSession && !bizTypeEnum.equals(BizTypeEnum.USER_LOGIN)) {
-                params.setUsername(httpSession.getUsername());
+            if (hasPreSession.get() && !bizTypeEnum.equals(BizTypeEnum.USER_LOGIN)) {
+                params.setUsername(ThreadUtil.getHttpSession().getUsername());
             }
 
             /** 使用派发器执行业务并返回业务执行结果 */
@@ -114,7 +110,6 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
                 /** 返回客户端INTERNAL_SERVER_ERROR，即服务器内部错误 */
                 retStr = new SysErrorOutParams().toString();
             }
-
             /** 将返回结果写入管道 */
             writeResponse(channelHandlerContext, retStr, request);
         }
@@ -193,19 +188,27 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     /** 根据请求的cookie获取HttpSession */
     private void getSession(FullHttpRequest msg) {
-        hasPreSession = false;
+        boolean hasPre = false;
+        HttpSession httpSession = null;
         String cookieStr = msg.headers().get(HttpHeaderNames.COOKIE);
         if (cookieStr != null && !cookieStr.equals("")) {
             Set<Cookie> cookieSet = ServerCookieDecoder.STRICT.decode(cookieStr);
             for (Cookie cookie:cookieSet) {
                 if (cookie.name().equals(NameConstant.HTTP_SESSION_NAME))
+                    /** 获取之前的session */
                     if (HttpSession.sessionExist(cookie.value())) {
-                        this.httpSession = HttpSession.getSession(cookie.value());
-                        hasPreSession = true;
+                        httpSession = HttpSession.getSession(cookie.value());
+                        hasPre = true;
                         break;
                     }
             }
         }
+        hasPreSession.set(hasPre);
+        /** 不存在session需要新建session */
+        if (httpSession == null)
+            httpSession = HttpSession.newSession();
+        /** 将session存到线程变量中 */
+        ThreadUtil.setHttpSession(httpSession);
     }
 
     /** 将内容写入返回管道中 */
@@ -221,8 +224,8 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, clientIP);
 
         /** 如果之前不存在session，需要设置一下session */
-        if (!hasPreSession) {
-            Cookie cookie = new DefaultCookie(NameConstant.HTTP_SESSION_NAME, httpSession.getSessionId());
+        if (!hasPreSession.get()) {
+            Cookie cookie = new DefaultCookie(NameConstant.HTTP_SESSION_NAME, ThreadUtil.getHttpSession().getSessionId());
             cookie.setPath("/");
             String encodeCookie = ServerCookieEncoder.STRICT.encode(cookie);
             response.headers().set(HttpHeaderNames.SET_COOKIE,encodeCookie);
