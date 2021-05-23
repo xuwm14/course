@@ -26,6 +26,7 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.codec.http.cookie.Cookie;
@@ -74,7 +75,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             /** 获取操作类型 */
             try {
                 String path = requestParams.getString(KeyConstant.PATH);
-                bizTypeEnum = getBizTypeByPath(path);
+                bizTypeEnum = getBizTypeByPath(path, request.method());
                 if (bizTypeEnum == null)
                     throw new CourseWarn(SystemErrorEnum.BIZ_TYPE_NOT_EXIST);
                 requestParams.put(KeyConstant.BIZ_TYPE, bizTypeEnum);
@@ -174,11 +175,11 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     }
 
     /** 根据httpPath获取对应的业务 */
-    private BizTypeEnum getBizTypeByPath(String httpPath) {
+    private BizTypeEnum getBizTypeByPath(String httpPath, HttpMethod method) {
         BizTypeEnum[] bizTypeEnums = BizTypeEnum.values();
         BizTypeEnum ret = null;
         for (BizTypeEnum bizTypeEnum:bizTypeEnums) {
-            if (httpPath.equals(bizTypeEnum.getHttpPath())) {
+            if (httpPath.equals(bizTypeEnum.getHttpPath()) && method.equals(bizTypeEnum.getHttpMethod())) {
                 ret = bizTypeEnum;
                 break;
             }
